@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,12 +7,14 @@
   <style>
     :root {
       --bg-color: #06101e;
-      --panel-bg: rgba(15, 25, 47, 0.88);
+      --panel-bg: rgba(10, 25, 47, 0.94);
       --cyan: #00f3ff;
-      --cyan-dim: rgba(0, 255, 255, 0.2);
-      --amber: #ffb703;
-      --green: #00ffaa;
-      --text: #cde4f7;
+      --cyan-dim: rgba(0, 243, 255, 0.25);
+      --amber-bright: #ffd166; /* 고대비 밝은 골드 */
+      --green-bright: #00ffaa;
+      --text-white: #ffffff;
+      --text-light: #e6edf3;
+      --text-dim: #8b949e;
       --font-mono: "SF Mono", "Consolas", "Courier New", monospace;
     }
 
@@ -21,7 +22,7 @@
 
     body {
       background-color: var(--bg-color);
-      color: var(--text);
+      color: var(--text-light);
       font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
@@ -41,7 +42,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 20px rgba(0, 243, 255, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 243, 255, 0.2);
     }
     .title-box h1 {
       font-size: 1.25rem;
@@ -54,21 +55,23 @@
     .badge {
       background: #e63946;
       color: #fff;
-      font-size: 0.7rem;
-      padding: 2px 8px;
+      font-size: 0.75rem;
+      padding: 3px 8px;
       border-radius: 3px;
       font-weight: bold;
+      letter-spacing: 1px;
     }
     .status-text {
       font-size: 0.8rem;
-      color: var(--green);
+      color: var(--green-bright);
       text-align: right;
+      font-weight: 500;
     }
 
     /* 레이아웃 메인 */
     main {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 360px;
       gap: 1.5rem;
       padding: 1.5rem;
       flex: 1;
@@ -82,12 +85,12 @@
     .viewport-panel {
       background: var(--panel-bg);
       border: 1px solid var(--cyan);
-      border-radius: 4px;
+      border-radius: 6px;
       padding: 1.2rem;
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.05);
+      box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.08);
     }
 
     .controls-bar {
@@ -102,23 +105,24 @@
 
     .btn-group {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
     button {
       background: rgba(0, 243, 255, 0.08);
       border: 1px solid var(--cyan);
       color: var(--cyan);
-      padding: 6px 12px;
+      padding: 7px 14px;
       font-family: inherit;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       cursor: pointer;
-      border-radius: 2px;
+      border-radius: 3px;
       transition: all 0.2s;
+      font-weight: 600;
     }
     button:hover, button.active {
       background: var(--cyan);
       color: var(--bg-color);
-      box-shadow: 0 0 10px var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
       font-weight: bold;
     }
 
@@ -148,12 +152,12 @@
     }
     @keyframes pulse {
       0% { r: 6px; opacity: 1; }
-      50% { r: 14px; opacity: 0.3; }
-      100% { r: 20px; opacity: 0; }
+      50% { r: 14px; opacity: 0.4; }
+      100% { r: 22px; opacity: 0; }
     }
     .hotspot:hover .hotspot-core {
-      fill: var(--amber);
-      filter: drop-shadow(0 0 8px var(--amber));
+      fill: var(--amber-bright);
+      filter: drop-shadow(0 0 10px var(--amber-bright));
     }
 
     /* 우측 사이드바 데이터 패널 */
@@ -164,46 +168,80 @@
     }
     .card {
       background: var(--panel-bg);
-      border: 1px solid var(--cyan);
-      border-radius: 4px;
+      border: 1px solid rgba(0, 243, 255, 0.6);
+      border-radius: 6px;
       padding: 1.2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
     .card h2 {
       font-size: 0.95rem;
       color: var(--cyan);
       border-bottom: 1px solid var(--cyan-dim);
-      padding-bottom: 6px;
-      margin-bottom: 10px;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
       text-transform: uppercase;
-    }
-    .spec-table {
-      width: 100%;
-      font-size: 0.8rem;
-      border-collapse: collapse;
-    }
-    .spec-table td {
-      padding: 5px 0;
-      border-bottom: 1px dotted rgba(205, 228, 247, 0.1);
-    }
-    .spec-table td:last-child {
-      text-align: right;
-      color: var(--amber);
-      font-weight: bold;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
+    /* 제원 표 (가독성 극대화) */
+    .spec-table {
+      width: 100%;
+      font-size: 0.85rem;
+      border-collapse: collapse;
+    }
+    .spec-table tr {
+      border-bottom: 1px solid rgba(0, 243, 255, 0.15);
+      transition: background-color 0.15s ease;
+    }
+    .spec-table tr:hover {
+      background-color: rgba(0, 243, 255, 0.08);
+    }
+    .spec-table td {
+      padding: 8px 6px;
+      vertical-align: middle;
+    }
+    /* 항목명 (좌측) */
+    .spec-table td:first-child {
+      color: var(--text-white);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    /* 수치 값 (우측 - 선명한 네온 골드) */
+    .spec-table td:last-child {
+      text-align: right;
+      color: var(--amber-bright);
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-shadow: 0 0 8px rgba(255, 209, 102, 0.3);
+    }
+
+    /* 상세 설명창 가독성 */
     .provenance-box {
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: #e0f2fe;
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: var(--text-white);
+    }
+    .provenance-box p {
+      margin-top: 8px;
+    }
+    .provenance-box strong {
+      color: #00ffc4;
+      font-weight: 700;
+      text-shadow: 0 0 6px rgba(0, 255, 196, 0.3);
     }
     .provenance-tag {
       display: inline-block;
-      background: var(--cyan-dim);
+      background: rgba(0, 243, 255, 0.15);
       color: var(--cyan);
-      padding: 2px 6px;
+      border: 1px solid var(--cyan);
+      padding: 3px 8px;
       border-radius: 3px;
-      font-size: 0.72rem;
-      margin-bottom: 6px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
     }
   </style>
 </head>
@@ -261,27 +299,27 @@
             <ellipse cx="400" cy="155" rx="18" ry="42" fill="rgba(0, 255, 170, 0.15)" stroke="#00ffaa" stroke-width="1.5"/>
 
             <!-- 기수 12.7mm 기관포 6문 포구 라인 -->
-            <line x1="392" y1="58" x2="392" y2="78" stroke="#ffb703" stroke-width="2"/>
-            <line x1="408" y1="58" x2="408" y2="78" stroke="#ffb703" stroke-width="2"/>
-            <line x1="387" y1="65" x2="387" y2="85" stroke="#ffb703" stroke-width="2"/>
-            <line x1="413" y1="65" x2="413" y2="85" stroke="#ffb703" stroke-width="2"/>
-            <line x1="382" y1="72" x2="382" y2="92" stroke="#ffb703" stroke-width="2"/>
-            <line x1="418" y1="72" x2="418" y2="92" stroke="#ffb703" stroke-width="2"/>
+            <line x1="392" y1="58" x2="392" y2="78" stroke="#ffd166" stroke-width="2"/>
+            <line x1="408" y1="58" x2="408" y2="78" stroke="#ffd166" stroke-width="2"/>
+            <line x1="387" y1="65" x2="387" y2="85" stroke="#ffd166" stroke-width="2"/>
+            <line x1="413" y1="65" x2="413" y2="85" stroke="#ffd166" stroke-width="2"/>
+            <line x1="382" y1="72" x2="382" y2="92" stroke="#ffd166" stroke-width="2"/>
+            <line x1="418" y1="72" x2="418" y2="92" stroke="#ffd166" stroke-width="2"/>
 
             <!-- 상면도 지상 타격 무장 레이어 -->
             <g id="top-weapons" style="display: none;">
-              <rect x="300" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <rect x="484" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <line x1="220" y1="280" x2="220" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="240" y1="280" x2="240" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="560" y1="280" x2="560" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="580" y1="280" x2="580" y2="310" stroke="#ffb703" stroke-width="3"/>
+              <rect x="300" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffd166" stroke-width="1.5"/>
+              <rect x="484" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffd166" stroke-width="1.5"/>
+              <line x1="220" y1="280" x2="220" y2="310" stroke="#ffd166" stroke-width="3"/>
+              <line x1="240" y1="280" x2="240" y2="310" stroke="#ffd166" stroke-width="3"/>
+              <line x1="560" y1="280" x2="560" y2="310" stroke="#ffd166" stroke-width="3"/>
+              <line x1="580" y1="280" x2="580" y2="310" stroke="#ffd166" stroke-width="3"/>
             </g>
 
-            <!-- [상면도 전용 핫스팟] -->
+            <!-- 상면도 전용 핫스팟 -->
             <g id="top-hotspots">
               <g class="hotspot" onclick="showDetail('nose')">
-                <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffd166" stroke-width="2"/>
                 <circle class="hotspot-core" cx="400" cy="70" r="6" fill="#00f3ff"/>
               </g>
               <g class="hotspot" onclick="showDetail('cockpit')">
@@ -289,8 +327,8 @@
                 <circle class="hotspot-core" cx="400" cy="155" r="6" fill="#00ffaa"/>
               </g>
               <g class="hotspot" onclick="showDetail('engine')">
-                <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
-                <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffb703"/>
+                <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffd166" stroke-width="2"/>
+                <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffd166"/>
               </g>
               <g class="hotspot" onclick="showDetail('wing')">
                 <circle class="hotspot-pulse" cx="560" cy="270" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
@@ -320,33 +358,28 @@
 
             <!-- 측면도 지상 타격 무장 레이어 -->
             <g id="side-weapons" style="display: none;">
-              <rect x="380" y="285" width="42" height="14" rx="4" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <line x1="360" y1="285" x2="360" y2="295" stroke="#ffb703" stroke-width="2.5"/>
+              <rect x="380" y="285" width="42" height="14" rx="4" fill="#e63946" stroke="#ffd166" stroke-width="1.5"/>
+              <line x1="360" y1="285" x2="360" y2="295" stroke="#ffd166" stroke-width="2.5"/>
             </g>
 
-            <!-- [측면도 전용 핫스팟 - 실제 측면 좌표에 정확히 배치] -->
+            <!-- 측면도 전용 핫스팟 -->
             <g id="side-hotspots">
-              <!-- 1. 기수 기관포 -->
               <g class="hotspot" onclick="showDetail('nose')">
-                <circle class="hotspot-pulse" cx="160" cy="245" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-pulse" cx="160" cy="245" r="10" fill="none" stroke="#ffd166" stroke-width="2"/>
                 <circle class="hotspot-core" cx="160" cy="245" r="6" fill="#00f3ff"/>
               </g>
-              <!-- 2. 조종석 -->
               <g class="hotspot" onclick="showDetail('cockpit')">
                 <circle class="hotspot-pulse" cx="300" cy="195" r="10" fill="none" stroke="#00ffaa" stroke-width="2"/>
                 <circle class="hotspot-core" cx="300" cy="195" r="6" fill="#00ffaa"/>
               </g>
-              <!-- 3. 공기 흡입구 -->
               <g class="hotspot" onclick="showDetail('intake')">
                 <circle class="hotspot-pulse" cx="345" cy="252" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
                 <circle class="hotspot-core" cx="345" cy="252" r="6" fill="#00f3ff"/>
               </g>
-              <!-- 4. K-J33 제트엔진 (동체 내부) -->
               <g class="hotspot" onclick="showDetail('engine')">
-                <circle class="hotspot-pulse" cx="490" cy="248" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
-                <circle class="hotspot-core" cx="490" cy="248" r="7" fill="#ffb703"/>
+                <circle class="hotspot-pulse" cx="490" cy="248" r="12" fill="none" stroke="#ffd166" stroke-width="2"/>
+                <circle class="hotspot-core" cx="490" cy="248" r="7" fill="#ffd166"/>
               </g>
-              <!-- 5. 수직 미익 (꼬리날개) -->
               <g class="hotspot" onclick="showDetail('tail')">
                 <circle class="hotspot-pulse" cx="660" cy="150" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
                 <circle class="hotspot-core" cx="660" cy="150" r="6" fill="#00f3ff"/>
@@ -372,10 +405,12 @@
         <table class="spec-table">
           <tr><td>전장 (Length)</td><td>10.49 m</td></tr>
           <tr><td>익폭 (Wingspan)</td><td>11.81 m</td></tr>
+          <tr><td>전고 (Height)</td><td>3.43 m</td></tr>
           <tr><td>최고 속도 (Max Speed)</td><td>940 km/h (M 0.76)</td></tr>
           <tr><td>엔진 추력 (Thrust)</td><td>4,800 lbf (K-J33)</td></tr>
-          <tr><td>기본 무장</td><td>12.7mm M3 x 6문</td></tr>
-          <tr><td>작전 반경</td><td>1,300 km (순항 시)</td></tr>
+          <tr><td>기본 무장 (Guns)</td><td>12.7mm M3 x 6문</td></tr>
+          <tr><td>작전 반경 (Combat Radius)</td><td>1,300 km (순항 시)</td></tr>
+          <tr><td>실용 상승한도 (Ceiling)</td><td>14,250 m (46,800 ft)</td></tr>
         </table>
       </div>
     </aside>
@@ -408,7 +443,7 @@
         text: "대형 프레스 성형을 통한 <strong>165갤런(625L) 드롭식 연료탱크</strong>. 인천 전용 조립 지그를 통해 서해 횡단 작전 반경을 대폭 확보했습니다."
       },
       tail: {
-        tag: "인하공과학원 // 전두루랄루민 수직 미익",
+        tag: "인하공과학원 // 전두랄루민 수직 미익",
         text: "고속 비행 시 방향 안정성을 보장하는 <strong>올-두랄루민 수직 안정판</strong> 및 기계식 러더 계통입니다."
       }
     };

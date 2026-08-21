@@ -6,16 +6,15 @@
   <title>대한민국 국방기밀 제1호 - K-80 비호(飛虎) 인터랙티브 청사진</title>
   <style>
     :root {
-      --bg-color: #040a14;
-      --panel-bg: rgba(8, 26, 48, 0.95);
-      --card-bg: #07172b;
-      --card-alt: #0a203c;
+      --bg-color: #030712;
+      --panel-bg: #0b1523;
+      --card-bg: #08111c;
       --cyan: #00f3ff;
-      --cyan-dim: rgba(0, 243, 255, 0.25);
-      --amber: #ffd166;
+      --cyan-dim: rgba(0, 243, 255, 0.2);
+      --gold: #ffc400;
       --green: #00ffaa;
-      --text-bright: #f0f7ff;
-      --text-muted: #9dc0e2;
+      --text-main: #f0f6fc;
+      --text-muted: #8b9bb4;
       --font-mono: "SF Mono", "Consolas", "Courier New", monospace;
     }
 
@@ -23,7 +22,7 @@
 
     body {
       background-color: var(--bg-color);
-      color: var(--text-bright);
+      color: var(--text-main);
       font-family: var(--font-mono);
       min-height: 100vh;
       display: flex;
@@ -70,7 +69,7 @@
     /* 레이아웃 메인 */
     main {
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 350px;
       gap: 1.5rem;
       padding: 1.5rem;
       flex: 1;
@@ -119,7 +118,7 @@
     }
     button:hover, button.active {
       background: var(--cyan);
-      color: #040a14;
+      color: #030712;
       box-shadow: 0 0 10px var(--cyan);
       font-weight: bold;
     }
@@ -154,8 +153,8 @@
       100% { r: 20px; opacity: 0; }
     }
     .hotspot:hover .hotspot-core {
-      fill: var(--amber);
-      filter: drop-shadow(0 0 8px var(--amber));
+      fill: var(--gold);
+      filter: drop-shadow(0 0 8px var(--gold));
     }
 
     /* 우측 사이드바 데이터 패널 */
@@ -165,12 +164,12 @@
       gap: 1.2rem;
     }
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--cyan-dim);
-      border-top: 3px solid var(--cyan);
+      background: var(--card-bg) !important;
+      border: 1px solid rgba(0, 243, 255, 0.3) !important;
+      border-top: 3px solid var(--cyan) !important;
       border-radius: 4px;
       padding: 1.2rem;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
     .card h2 {
       font-size: 0.95rem;
@@ -185,50 +184,57 @@
     }
     .card h2::before {
       content: "■";
-      font-size: 0.7rem;
-      color: var(--amber);
+      font-size: 0.75rem;
+      color: var(--gold);
     }
 
-    /* 가독성이 강화된 기술 제원 테이블 */
+    /* 완벽한 다크 HUD 제원 테이블 */
     .spec-table {
       width: 100%;
-      font-size: 0.85rem;
       border-collapse: separate;
-      border-spacing: 0 4px;
+      border-spacing: 0 6px;
+      background: transparent !important;
     }
     .spec-table tr {
-      background: var(--card-alt);
-      transition: background 0.2s;
+      background-color: #0d1b2a !important;
+      border: 1px solid rgba(0, 243, 255, 0.2) !important;
+      transition: all 0.2s ease;
     }
     .spec-table tr:hover {
-      background: #0e2d54;
+      background-color: #13273f !important;
+      border-color: var(--cyan) !important;
     }
     .spec-table td {
-      padding: 8px 10px;
+      padding: 10px 12px !important;
+      background: transparent !important;
     }
     .spec-table td:first-child {
-      color: var(--text-muted);
-      font-weight: 500;
-      border-left: 2px solid var(--cyan-dim);
-      border-radius: 2px 0 0 2px;
+      color: #e2e8f0 !important;
+      font-size: 0.83rem;
+      font-weight: 600;
+      border-left: 3px solid var(--cyan);
+      border-radius: 3px 0 0 3px;
     }
     .spec-table td:last-child {
       text-align: right;
-      color: var(--amber);
-      font-weight: 700;
+      color: var(--gold) !important;
+      font-size: 0.88rem;
+      font-weight: bold;
       letter-spacing: 0.5px;
-      border-radius: 0 2px 2px 0;
+      border-radius: 0 3px 3px 0;
+      text-shadow: 0 0 8px rgba(255, 196, 0, 0.3);
     }
 
     /* 부품 상세 설명창 */
     .provenance-box {
       font-size: 0.85rem;
       line-height: 1.6;
-      color: var(--text-bright);
-      background: var(--card-alt);
-      padding: 10px;
+      color: #f0f6fc;
+      background: #0d1b2a;
+      padding: 12px;
       border-radius: 3px;
       border-left: 3px solid var(--green);
+      border-top: 1px solid rgba(0, 255, 170, 0.2);
     }
     .provenance-tag {
       display: inline-block;
@@ -279,45 +285,37 @@
 
           <!-- ================= 1. 상면도 (TOP VIEW) ================= -->
           <g id="top-view">
-            <!-- 주익 및 층류익 형상 -->
             <polygon points="400,160 690,260 680,310 400,290 120,310 110,260" fill="rgba(0, 243, 255, 0.05)" stroke="#00f3ff" stroke-width="2"/>
             
-            <!-- 익단 보조연료탱크 -->
             <ellipse cx="110" cy="285" rx="14" ry="48" fill="rgba(0,243,255,0.15)" stroke="#00f3ff" stroke-width="1.8"/>
             <ellipse cx="690" cy="285" rx="14" ry="48" fill="rgba(0,243,255,0.15)" stroke="#00f3ff" stroke-width="1.8"/>
 
-            <!-- 수평 꼬리날개 -->
             <polygon points="400,410 520,450 510,475 400,465 290,475 280,450" fill="rgba(0, 243, 255, 0.05)" stroke="#00f3ff" stroke-width="1.8"/>
 
-            <!-- 중앙 동체 유선형 -->
             <path d="M 400,50 C 430,90 435,220 425,380 L 415,470 L 385,470 L 375,380 C 365,220 370,90 400,50 Z" 
-                  fill="rgba(7, 23, 43, 0.95)" stroke="#00f3ff" stroke-width="2.2"/>
+                  fill="#081424" stroke="#00f3ff" stroke-width="2.2"/>
 
-            <!-- 조종석 버블 캐노피 -->
             <ellipse cx="400" cy="155" rx="18" ry="42" fill="rgba(0, 255, 170, 0.15)" stroke="#00ffaa" stroke-width="1.5"/>
 
-            <!-- 기수 12.7mm 기관포 6문 포구 라인 -->
-            <line x1="392" y1="58" x2="392" y2="78" stroke="#ffb703" stroke-width="2"/>
-            <line x1="408" y1="58" x2="408" y2="78" stroke="#ffb703" stroke-width="2"/>
-            <line x1="387" y1="65" x2="387" y2="85" stroke="#ffb703" stroke-width="2"/>
-            <line x1="413" y1="65" x2="413" y2="85" stroke="#ffb703" stroke-width="2"/>
-            <line x1="382" y1="72" x2="382" y2="92" stroke="#ffb703" stroke-width="2"/>
-            <line x1="418" y1="72" x2="418" y2="92" stroke="#ffb703" stroke-width="2"/>
+            <line x1="392" y1="58" x2="392" y2="78" stroke="#ffc400" stroke-width="2"/>
+            <line x1="408" y1="58" x2="408" y2="78" stroke="#ffc400" stroke-width="2"/>
+            <line x1="387" y1="65" x2="387" y2="85" stroke="#ffc400" stroke-width="2"/>
+            <line x1="413" y1="65" x2="413" y2="85" stroke="#ffc400" stroke-width="2"/>
+            <line x1="382" y1="72" x2="382" y2="92" stroke="#ffc400" stroke-width="2"/>
+            <line x1="418" y1="72" x2="418" y2="92" stroke="#ffc400" stroke-width="2"/>
 
-            <!-- 상면도 지상 타격 무장 레이어 -->
             <g id="top-weapons" style="display: none;">
-              <rect x="300" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <rect x="484" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <line x1="220" y1="280" x2="220" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="240" y1="280" x2="240" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="560" y1="280" x2="560" y2="310" stroke="#ffb703" stroke-width="3"/>
-              <line x1="580" y1="280" x2="580" y2="310" stroke="#ffb703" stroke-width="3"/>
+              <rect x="300" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffc400" stroke-width="1.5"/>
+              <rect x="484" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffc400" stroke-width="1.5"/>
+              <line x1="220" y1="280" x2="220" y2="310" stroke="#ffc400" stroke-width="3"/>
+              <line x1="240" y1="280" x2="240" y2="310" stroke="#ffc400" stroke-width="3"/>
+              <line x1="560" y1="280" x2="560" y2="310" stroke="#ffc400" stroke-width="3"/>
+              <line x1="580" y1="280" x2="580" y2="310" stroke="#ffc400" stroke-width="3"/>
             </g>
 
-            <!-- [상면도 전용 핫스팟] -->
             <g id="top-hotspots">
               <g class="hotspot" onclick="showDetail('nose')">
-                <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffc400" stroke-width="2"/>
                 <circle class="hotspot-core" cx="400" cy="70" r="6" fill="#00f3ff"/>
               </g>
               <g class="hotspot" onclick="showDetail('cockpit')">
@@ -325,8 +323,8 @@
                 <circle class="hotspot-core" cx="400" cy="155" r="6" fill="#00ffaa"/>
               </g>
               <g class="hotspot" onclick="showDetail('engine')">
-                <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
-                <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffb703"/>
+                <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffc400" stroke-width="2"/>
+                <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffc400"/>
               </g>
               <g class="hotspot" onclick="showDetail('wing')">
                 <circle class="hotspot-pulse" cx="560" cy="270" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
@@ -341,29 +339,23 @@
 
           <!-- ================= 2. 측면도 (SIDE VIEW) ================= -->
           <g id="side-view" style="display: none;">
-            <!-- 동체 측면 실루엣 -->
             <path d="M 120,250 C 160,230 260,210 500,210 C 650,210 700,235 720,250 C 700,265 650,285 500,285 C 260,285 160,270 120,250 Z" 
-                  fill="rgba(7, 23, 43, 0.95)" stroke="#00f3ff" stroke-width="2.2"/>
+                  fill="#081424" stroke="#00f3ff" stroke-width="2.2"/>
             
-            <!-- 수직 미익 (꼬리날개) -->
             <polygon points="610,210 680,105 715,105 695,210" fill="rgba(0, 243, 255, 0.08)" stroke="#00f3ff" stroke-width="2"/>
             
-            <!-- 캐노피 측면 곡선 -->
             <path d="M 230,225 Q 300,165 370,225 Z" fill="rgba(0, 255, 170, 0.2)" stroke="#00ffaa" stroke-width="1.5"/>
             
-            <!-- 타원형 공기 흡입구 -->
-            <path d="M 330,240 L 370,240 L 360,265 L 320,265 Z" fill="#040a14" stroke="#00f3ff" stroke-width="1.5"/>
+            <path d="M 330,240 L 370,240 L 360,265 L 320,265 Z" fill="#030712" stroke="#00f3ff" stroke-width="1.5"/>
 
-            <!-- 측면도 지상 타격 무장 레이어 -->
             <g id="side-weapons" style="display: none;">
-              <rect x="380" y="285" width="42" height="14" rx="4" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <line x1="360" y1="285" x2="360" y2="295" stroke="#ffb703" stroke-width="2.5"/>
+              <rect x="380" y="285" width="42" height="14" rx="4" fill="#e63946" stroke="#ffc400" stroke-width="1.5"/>
+              <line x1="360" y1="285" x2="360" y2="295" stroke="#ffc400" stroke-width="2.5"/>
             </g>
 
-            <!-- [측면도 전용 핫스팟] -->
             <g id="side-hotspots">
               <g class="hotspot" onclick="showDetail('nose')">
-                <circle class="hotspot-pulse" cx="160" cy="245" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-pulse" cx="160" cy="245" r="10" fill="none" stroke="#ffc400" stroke-width="2"/>
                 <circle class="hotspot-core" cx="160" cy="245" r="6" fill="#00f3ff"/>
               </g>
               <g class="hotspot" onclick="showDetail('cockpit')">
@@ -375,8 +367,8 @@
                 <circle class="hotspot-core" cx="345" cy="252" r="6" fill="#00f3ff"/>
               </g>
               <g class="hotspot" onclick="showDetail('engine')">
-                <circle class="hotspot-pulse" cx="490" cy="248" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
-                <circle class="hotspot-core" cx="490" cy="248" r="7" fill="#ffb703"/>
+                <circle class="hotspot-pulse" cx="490" cy="248" r="12" fill="none" stroke="#ffc400" stroke-width="2"/>
+                <circle class="hotspot-core" cx="490" cy="248" r="7" fill="#ffc400"/>
               </g>
               <g class="hotspot" onclick="showDetail('tail')">
                 <circle class="hotspot-pulse" cx="660" cy="150" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>

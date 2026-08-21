@@ -8,7 +8,7 @@
   <style>
     :root {
       --bg-color: #06101e;
-      --panel-bg: rgba(10, 25, 47, 0.88);
+      --panel-bg: rgba(188, 219, 245, 0.88);
       --cyan: #00f3ff;
       --cyan-dim: rgba(0, 243, 255, 0.2);
       --amber: #ffb703;

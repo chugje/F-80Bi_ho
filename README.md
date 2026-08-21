@@ -219,12 +219,11 @@
   </header>
 
   <main>
-    <!-- 도면 인터랙티브 뷰어 -->
     <section class="viewport-panel">
       <div class="controls-bar">
         <div class="btn-group">
-          <button class="active" onclick="switchView('top')">상면도 (Top View)</button>
-          <button onclick="switchView('side')">측면도 (Side Profile)</button>
+          <button id="btn-view-top" class="active" onclick="switchView('top')">상면도 (Top View)</button>
+          <button id="btn-view-side" onclick="switchView('side')">측면도 (Side Profile)</button>
         </div>
         <div class="btn-group">
           <button id="loadout-clean" class="active" onclick="setLoadout('clean')">장거리 순항 (Clean)</button>
@@ -235,19 +234,18 @@
       <div class="svg-container">
         <svg id="blueprint-canvas" viewBox="0 0 800 500">
           <defs>
-            <!-- 그리드 패턴 -->
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,243,255,0.08)" stroke-width="0.8"/>
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#grid)" />
 
-          <!-- ================= TOP VIEW ================= -->
+          <!-- ================= 1. 상면도 (TOP VIEW) ================= -->
           <g id="top-view">
-            <!-- 날개 및 층류익 형상 -->
+            <!-- 주익 및 층류익 형상 -->
             <polygon points="400,160 690,260 680,310 400,290 120,310 110,260" fill="rgba(0, 243, 255, 0.05)" stroke="#00f3ff" stroke-width="2"/>
             
-            <!-- 익단 보조연료탱크 (Tip Tanks) -->
+            <!-- 익단 보조연료탱크 -->
             <ellipse cx="110" cy="285" rx="14" ry="48" fill="rgba(0,243,255,0.15)" stroke="#00f3ff" stroke-width="1.8"/>
             <ellipse cx="690" cy="285" rx="14" ry="48" fill="rgba(0,243,255,0.15)" stroke="#00f3ff" stroke-width="1.8"/>
 
@@ -269,57 +267,90 @@
             <line x1="382" y1="72" x2="382" y2="92" stroke="#ffb703" stroke-width="2"/>
             <line x1="418" y1="72" x2="418" y2="92" stroke="#ffb703" stroke-width="2"/>
 
-            <!-- 지상 타격 무장 레이어 (HVAR 로켓 + 1000lb 폭탄) -->
-            <g id="weapons-layer" style="display: none;">
-              <!-- 폭탄 2발 -->
+            <!-- 상면도 지상 타격 무장 레이어 -->
+            <g id="top-weapons" style="display: none;">
               <rect x="300" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
               <rect x="484" y="270" width="16" height="42" rx="6" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
-              <!-- HVAR 로켓 4발씩 -->
               <line x1="220" y1="280" x2="220" y2="310" stroke="#ffb703" stroke-width="3"/>
               <line x1="240" y1="280" x2="240" y2="310" stroke="#ffb703" stroke-width="3"/>
               <line x1="560" y1="280" x2="560" y2="310" stroke="#ffb703" stroke-width="3"/>
               <line x1="580" y1="280" x2="580" y2="310" stroke="#ffb703" stroke-width="3"/>
             </g>
+
+            <!-- [상면도 전용 핫스팟] -->
+            <g id="top-hotspots">
+              <g class="hotspot" onclick="showDetail('nose')">
+                <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-core" cx="400" cy="70" r="6" fill="#00f3ff"/>
+              </g>
+              <g class="hotspot" onclick="showDetail('cockpit')">
+                <circle class="hotspot-pulse" cx="400" cy="155" r="10" fill="none" stroke="#00ffaa" stroke-width="2"/>
+                <circle class="hotspot-core" cx="400" cy="155" r="6" fill="#00ffaa"/>
+              </g>
+              <g class="hotspot" onclick="showDetail('engine')">
+                <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffb703"/>
+              </g>
+              <g class="hotspot" onclick="showDetail('wing')">
+                <circle class="hotspot-pulse" cx="560" cy="270" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
+                <circle class="hotspot-core" cx="560" cy="270" r="6" fill="#00f3ff"/>
+              </g>
+              <g class="hotspot" onclick="showDetail('tiptank')">
+                <circle class="hotspot-pulse" cx="690" cy="285" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
+                <circle class="hotspot-core" cx="690" cy="285" r="6" fill="#00f3ff"/>
+              </g>
+            </g>
           </g>
 
-          <!-- ================= SIDE VIEW ================= -->
+          <!-- ================= 2. 측면도 (SIDE VIEW) ================= -->
           <g id="side-view" style="display: none;">
-            <!-- 동체 측면 형상 -->
+            <!-- 동체 측면 실루엣 -->
             <path d="M 120,250 C 160,230 260,210 500,210 C 650,210 700,235 720,250 C 700,265 650,285 500,285 C 260,285 160,270 120,250 Z" 
                   fill="rgba(10, 25, 47, 0.9)" stroke="#00f3ff" stroke-width="2.2"/>
-            <!-- 수직 미익 -->
+            
+            <!-- 수직 미익 (꼬리날개) -->
             <polygon points="610,210 680,105 715,105 695,210" fill="rgba(0, 243, 255, 0.08)" stroke="#00f3ff" stroke-width="2"/>
-            <!-- 캐노피 측면 -->
+            
+            <!-- 캐노피 측면 곡선 -->
             <path d="M 230,225 Q 300,165 370,225 Z" fill="rgba(0, 255, 170, 0.2)" stroke="#00ffaa" stroke-width="1.5"/>
-            <!-- 공기 흡입구 -->
+            
+            <!-- 타원형 공기 흡입구 -->
             <path d="M 330,240 L 370,240 L 360,265 L 320,265 Z" fill="#06101e" stroke="#00f3ff" stroke-width="1.5"/>
-          </g>
 
-          <!-- ================= HOTSPOTS ================= -->
-          <!-- 1. 기수 기관포 -->
-          <g class="hotspot" onclick="showDetail('nose')">
-            <circle class="hotspot-pulse" cx="400" cy="70" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
-            <circle class="hotspot-core" cx="400" cy="70" r="6" fill="#00f3ff"/>
-          </g>
-          <!-- 2. 조종석 -->
-          <g class="hotspot" onclick="showDetail('cockpit')">
-            <circle class="hotspot-pulse" cx="400" cy="155" r="10" fill="none" stroke="#00ffaa" stroke-width="2"/>
-            <circle class="hotspot-core" cx="400" cy="155" r="6" fill="#00ffaa"/>
-          </g>
-          <!-- 3. 터보제트 엔진 (동체 중앙) -->
-          <g class="hotspot" onclick="showDetail('engine')">
-            <circle class="hotspot-pulse" cx="400" cy="310" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
-            <circle class="hotspot-core" cx="400" cy="310" r="7" fill="#ffb703"/>
-          </g>
-          <!-- 4. 층류익 주익 (서울대) -->
-          <g class="hotspot" onclick="showDetail('wing')">
-            <circle class="hotspot-pulse" cx="560" cy="270" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
-            <circle class="hotspot-core" cx="560" cy="270" r="6" fill="#00f3ff"/>
-          </g>
-          <!-- 5. 팁탱크 및 치공구 (인하공대) -->
-          <g class="hotspot" onclick="showDetail('tiptank')">
-            <circle class="hotspot-pulse" cx="690" cy="285" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
-            <circle class="hotspot-core" cx="690" cy="285" r="6" fill="#00f3ff"/>
+            <!-- 측면도 지상 타격 무장 레이어 -->
+            <g id="side-weapons" style="display: none;">
+              <rect x="380" y="285" width="42" height="14" rx="4" fill="#e63946" stroke="#ffb703" stroke-width="1.5"/>
+              <line x1="360" y1="285" x2="360" y2="295" stroke="#ffb703" stroke-width="2.5"/>
+            </g>
+
+            <!-- [측면도 전용 핫스팟 - 실제 측면 좌표에 정확히 배치] -->
+            <g id="side-hotspots">
+              <!-- 1. 기수 기관포 -->
+              <g class="hotspot" onclick="showDetail('nose')">
+                <circle class="hotspot-pulse" cx="160" cy="245" r="10" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-core" cx="160" cy="245" r="6" fill="#00f3ff"/>
+              </g>
+              <!-- 2. 조종석 -->
+              <g class="hotspot" onclick="showDetail('cockpit')">
+                <circle class="hotspot-pulse" cx="300" cy="195" r="10" fill="none" stroke="#00ffaa" stroke-width="2"/>
+                <circle class="hotspot-core" cx="300" cy="195" r="6" fill="#00ffaa"/>
+              </g>
+              <!-- 3. 공기 흡입구 -->
+              <g class="hotspot" onclick="showDetail('intake')">
+                <circle class="hotspot-pulse" cx="345" cy="252" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
+                <circle class="hotspot-core" cx="345" cy="252" r="6" fill="#00f3ff"/>
+              </g>
+              <!-- 4. K-J33 제트엔진 (동체 내부) -->
+              <g class="hotspot" onclick="showDetail('engine')">
+                <circle class="hotspot-pulse" cx="490" cy="248" r="12" fill="none" stroke="#ffb703" stroke-width="2"/>
+                <circle class="hotspot-core" cx="490" cy="248" r="7" fill="#ffb703"/>
+              </g>
+              <!-- 5. 수직 미익 (꼬리날개) -->
+              <g class="hotspot" onclick="showDetail('tail')">
+                <circle class="hotspot-pulse" cx="660" cy="150" r="10" fill="none" stroke="#00f3ff" stroke-width="2"/>
+                <circle class="hotspot-core" cx="660" cy="150" r="6" fill="#00f3ff"/>
+              </g>
+            </g>
           </g>
         </svg>
       </div>
@@ -359,6 +390,10 @@
         tag: "서울대학교 // 조종 및 여압 계통",
         text: "고공 비행용 여압 칵핏 및 <strong>버블 캐노피</strong> 적용으로 360도 전방위 시야를 확보. K-14 광학 조준경의 국내 조립 세팅이 완비되었습니다."
       },
+      intake: {
+        tag: "서울대학교 // 타원형 공기 흡입구",
+        text: "동체 측면에 배치된 <strong>낮은 공기저항 흡입 덕트</strong>. 원심식 압축기에 최적화된 공기 유입량을 공급하며 이물질 유입 방지망이 장착되어 있습니다."
+      },
       engine: {
         tag: "평양공과대학 // K-J33 제트엔진",
         text: "북부의 <strong>텅스텐·니켈 초내열 합금</strong>을 적용한 국산화 원심식 터보제트 엔진. 800°C 고온 터빈 블레이드 정밀 주조 성공으로 추력 4,800 lbf를 발휘합니다."
@@ -370,27 +405,40 @@
       tiptank: {
         tag: "인하공과학원 // 익단 탱크 및 정밀 지그",
         text: "대형 프레스 성형을 통한 <strong>165갤런(625L) 드롭식 연료탱크</strong>. 인천 전용 조립 지그를 통해 서해 횡단 작전 반경을 대폭 확보했습니다."
+      },
+      tail: {
+        tag: "인하공과학원 // 전두루랄루민 수직 미익",
+        text: "고속 비행 시 방향 안정성을 보장하는 <strong>올-두랄루민 수직 안정판</strong> 및 기계식 러더 계통입니다."
       }
     };
 
+    let currentLoadout = 'clean';
+
     function showDetail(key) {
       const data = details[key];
+      if (!data) return;
       const box = document.getElementById("provenance-display");
       box.innerHTML = `<span class="provenance-tag">${data.tag}</span><p>${data.text}</p>`;
     }
 
     function switchView(view) {
-      document.querySelectorAll('.controls-bar .btn-group:first-child button').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      document.getElementById('btn-view-top').classList.toggle('active', view === 'top');
+      document.getElementById('btn-view-side').classList.toggle('active', view === 'side');
 
       document.getElementById('top-view').style.display = view === 'top' ? 'inline' : 'none';
       document.getElementById('side-view').style.display = view === 'side' ? 'inline' : 'none';
+
+      setLoadout(currentLoadout);
     }
 
     function setLoadout(type) {
+      currentLoadout = type;
       document.getElementById('loadout-clean').classList.toggle('active', type === 'clean');
       document.getElementById('loadout-strike').classList.toggle('active', type === 'strike');
-      document.getElementById('weapons-layer').style.display = type === 'strike' ? 'inline' : 'none';
+
+      const isStrike = type === 'strike';
+      document.getElementById('top-weapons').style.display = isStrike ? 'inline' : 'none';
+      document.getElementById('side-weapons').style.display = isStrike ? 'inline' : 'none';
     }
   </script>
 </body>
